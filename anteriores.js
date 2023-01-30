@@ -1,3 +1,70 @@
+//VERSIÓN 02 DE 30/01/23
+function pivotATableFilteredByValueOfIdField(a, b, c, d, e, f, g) {
+  //c is the name of the table (array of objects) organized with properties of rows and columns that you want to show pivotted, filtering the objects contained in the array by the value 'a' in property 'b'. The objects has properties named 'd' and 'e' containing the rows and columns of the records
+  //a is the filter value. Introduce it between ''
+  //b is the name of the filter field (property of the objects of the array) where the value 'a' is going to be evaluated. Introduce it between ''
+  //d is the name of the field (property of the objects of the array) where the rows are recorded. Introduce it between ''
+  //e is the name of the field (property of the objects of the array) where the columns are recorded. Introduce it between ''
+  //f is the name of the field (property of the objects of the array) where the information to be shown is recorded. Introduce it between ''
+  //g is the characters to join the information recorded in 'f'
+  //Syntactic example of claim to the function:   pivotATableFilteredByValueOfIdField('filterValue', 'filterField', nameOfTheArray, 'rowField', 'columnField', 'dataField', 'separator')
+
+  const rows = []; //to calculate de rows to show
+  rows.shift();
+  for (let i = 0; i < c.filter((element1) => element1[b] == a).length; i++) {
+    rows.push(c.filter((element1) => element1[b] == a)[i][d]);
+  }
+  const numberOfRowsOfTheTable = Math.max(...rows);
+  console.log(numberOfRowsOfTheTable);
+
+  const columns = []; //to calculate de columns to show
+  columns.shift();
+  for (let j = 0; j < c.filter((element1) => element1[b] == a).length; j++) {
+    columns.push(c.filter((element1) => element1[b] == a)[j][e]);
+  }
+  const numberOfColumnsOfTheTable = Math.max(...columns);
+  console.log(numberOfColumnsOfTheTable);
+
+  const pivotTable = [
+    //to push the results to show
+    {
+      id: null,
+      row: null,
+      // column: null,
+      show: null,
+    },
+  ];
+
+  pivotTable.shift();
+
+  for (let k = 1; k <= numberOfRowsOfTheTable; k++) {
+    const tempArrayForRowsOfTheFTable = [];
+    const tempArrayForShowOfColumnsInALine = [];
+    for (let l = 1; l <= numberOfColumnsOfTheTable; l++) {
+      tempArrayForRowsOfTheFTable.push(
+        c
+          .filter((element) => element[b] == a)
+          .filter((item) => item[d] === k)
+          .filter((elemento) => elemento[e] === l)[0][f]
+      );
+      tempArrayForShowOfColumnsInALine.push(
+        c
+          .filter((element) => element[b] == a)
+          .filter((item) => item[d] === k)
+          .filter((elemento) => elemento[e] === l)[0][f]
+      );
+    }
+    pivotTable.push({
+      id: a,
+      row: k,
+      show: tempArrayForShowOfColumnsInALine.join(g),
+    });
+  }
+  return pivotTable.filter((element2) => element2.id == a);
+
+}
+
+
 //VERSIÓN 01 DE 12/01/23
 
 //FUNCIONES PARA OPERAR CON STRINGS
